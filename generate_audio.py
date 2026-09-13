@@ -13,16 +13,7 @@ RETRIES = 3
 
 # ===== 85个单词（从你的 words.html 提取）=====
 WORDS = [
-    "tanker","artifact","pending","blaze","absurd","cub","wholesome","premise",
-    "preside","lofty","unify","porridge","empirical","trumpet","cripple","zigzag",
-    "withhold","feast","yacht","navigate","rejoice","trivial","cylinder","hitherto",
-    "oppress","comic","counteract","plaintiff","yawn","fortnight","carve","atrocity",
-    "trillion","symmetry","plead","avail","olive","gleam","sponge","deplete","concurrent",
-    "havoc","armor","flare","scrap","vegetation","menace","verse","blush","harass","infringe",
-    "reconcile","rein","tribute","multitude","errand","terminate","tow","simultaneous","thorn",
-    "spectator","tentative","innumerable","herald","jolly","referendum","warranty","prop","correlate",
-    "regime","intercourse","outrage","squad","sneak","plaza",
-    "derail","ardent","imminent","plausible","downgrade","petition","clamp","strait","appease","glossary"
+    "cub","wholesome"
     # 注意：上面是示例，你需要把完整的85个单词列表贴进来
 ]
 # =============================================
