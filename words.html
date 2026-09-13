@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>六级第2组单词（点击听发音）</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+    font-family:"Microsoft Yahei",system-ui, sans-serif;
+    max-width:900px;
+    margin:20px auto;
+    padding:0 16px;
+    background:#f7f9fc;
+}
+h1{
+    text-align:center;
+    margin-bottom:30px;
+    color:#222;
+    font-size:22px;
+}
+.word-item{
+    background:#fff;
+    padding:12px 14px;
+    margin-bottom:10px;
+    border-radius:8px;
+    box-shadow:0 1px 3px #00000018;
+}
+.en-word{
+    color:#0052cc;
+    font-weight:bold;
+    cursor:pointer;
+    font-size:17px;
+    user-select:none;
+}
+.en-word:hover{
+    text-decoration:underline;
+}
+.phonetic{
+    color:#666;
+    margin:0 8px;
+}
+.meaning{
+    margin-top:4px;
+    color:#444;
+    font-size:15px;
+    line-height:1.5;
+}
+.index-num{
+    color:#999;
+    margin-right:6px;
+}
+</style>
+</head>
+<body>
+<h1>六级第2组｜点击蓝色单词听发音</h1>
+<div id="container"></div>
+
+<script>
+//单词数据
+const wordList = [
+{"en":"tanker","phonetic":"/ˈtæŋkə(r)/","cn":"n. 油轮，油车，空中加油飞机；坦克手；v. 罐运（液体）"},
+{"en":"artifact","phonetic":"/ˈɑːtɪfækt/","cn":"n. （尤指有文化价值或历史价值的）人工制品，历史文物；非自然存在物体，假象（=artefact）"},
+{"en":"pending","phonetic":"/ˈpendɪŋ/","cn":"adj. 待决的，待定的，待处理的；即将发生的，迫近的；prep. 直到……为止，在……之前"},
+{"en":"blaze","phonetic":"/bleɪz/","cn":"v. 熊熊燃烧；闪耀，发亮光；<正式>怒视，（怒火）燃烧；n. 烈火，火焰"},
+{"en":"absurd","phonetic":"/əbˈsɜːd/","cn":"adj. 愚蠢的，荒谬的；滑稽可笑的；荒诞派的"},
+{"en":"cub","phonetic":"/kʌb/","cn":"n. 幼兽；<旧>（尤指笨拙或举止粗鲁的）毛头小伙子；幼年童子军"},
+{"en":"wholesome","phonetic":"/ˈhəʊlsəm/","cn":"adj. （食物）有益健康的；有益身心健康的，增进身心健康的；（显得）健康的，朝气蓬勃的"},
+{"en":"premise","phonetic":"/ˈpremɪs/","cn":"n. 前提，假设；（企业或机构使用的）房屋及土地（premises）"},
+{"en":"preside","phonetic":"/prɪˈzaɪd/","cn":"v. 主持，担任主持；主管某地，掌管（局势）（preside over）；领奏，主奏"},
+{"en":"lofty","phonetic":"/ˈlɒfti/","cn":"adj. 巍峨的，高耸的；崇高的，高尚的；傲慢的，高傲的"},
+{"en":"unify","phonetic":"/ˈjuːnɪfaɪ/","cn":"v. （使）联合，（使）统一；使协调"},
+{"en":"porridge","phonetic":"/ˈpɒrɪdʒ/","cn":"n. <英>燕麦粥，麦片粥；<英，非正式>关押期，监禁期"},
+{"en":"empirical","phonetic":"/ɪmˈpɪrɪkl/","cn":"adj. 经验主义的，以经验为依据的"},
+{"en":"trumpet","phonetic":"/ˈtrʌmpɪt/","cn":"n. 小号，喇叭；喇叭形物；（大象的）吼声；v. 大肆宣扬"},
+{"en":"cripple","phonetic":"/ˈkrɪpl/","cn":"n. 瘸子，残疾人；感情有缺陷的人；v. 使残疾，使瘫痪；严重削弱"},
+{"en":"zigzag","phonetic":"/ˈzɪɡzæɡ/","cn":"n. 之字形，锯齿形线条；急转弯；v. 曲折前进"},
+{"en":"withhold","phonetic":"/wɪðˈhəʊld/","cn":"v. 保留，隐瞒，扣留；克制，抑制（情感或反应等）"},
+{"en":"feast","phonetic":"/fiːst/","cn":"n. 宴会，筵席；盛会，特别的享受；宗教节日；v. 尽情享用"},
+{"en":"yacht","phonetic":"/jɒt/","cn":"n. 帆船，快艇，游艇；v. 驾帆船比赛，乘游艇"},
+{"en":"navigate","phonetic":"/ˈnævɪɡeɪt/","cn":"v. 导航，引路；航行于，横渡；穿过，穿越"},
+{"en":"rejoice","phonetic":"/rɪˈdʒɔɪs/","cn":"v. 非常高兴，深感欣喜；享有（rejoice in）"},
+{"en":"trivial","phonetic":"/ˈtrɪviəl/","cn":"adj. 琐碎的，不重要的；容易解决的；浅薄的"},
+{"en":"cylinder","phonetic":"/ˈsɪlɪndə(r)/","cn":"n. 圆柱体，圆筒；汽缸；高压钢瓶"},
+{"en":"hitherto","phonetic":"/ˌhɪðəˈtuː/","cn":"adv. 迄今，至今"},
+{"en":"oppress","phonetic":"/əˈpres/","cn":"v. 压迫，欺压；使压抑，使烦恼"},
+{"en":"comic","phonetic":"/ˈkɒmɪk/","cn":"adj. 滑稽的，好笑的；喜剧的；n. 喜剧演员；漫画"},
+{"en":"counteract","phonetic":"/ˌkaʊntərˈækt/","cn":"v. 抵制，抵消，中和"},
+{"en":"plaintiff","phonetic":"/ˈpleɪntɪf/","cn":"n. <法律>原告，起诉人"},
+{"en":"yawn","phonetic":"/jɔːn/","cn":"v. 打哈欠；（洞口、洞穴等）豁开，裂开；n. 哈欠"},
+{"en":"fortnight","phonetic":"/ˈfɔːtnaɪt/","cn":"n. 两星期"},
+{"en":"carve","phonetic":"/kɑːv/","cn":"v. 雕，刻；切下，割下；开创，赢得（carve out）"},
+{"en":"atrocity","phonetic":"/əˈtrɒsəti/","cn":"n. （常伴有暴力伤害的）恶行，暴行"},
+{"en":"trillion","phonetic":"/ˈtrɪljən/","cn":"num. 万亿，兆；大量，无数"},
+{"en":"symmetry","phonetic":"/ˈsɪmətri/","cn":"n. 对称（性）；相似，相等"},
+{"en":"plead","phonetic":"/pliːd/","cn":"v. 恳求，乞求；极力主张；（在法庭）申辩，认罪"},
+{"en":"avail","phonetic":"/əˈveɪl/","cn":"n. 效用，利益；v. 利用，有益于"},
+{"en":"olive","phonetic":"/ˈɒlɪv/","cn":"n. 橄榄；橄榄树；橄榄色，黄绿色"},
+{"en":"gleam","phonetic":"/ɡliːm/","cn":"v. 发微光，闪烁；（眼睛）流露出；n. 微光"},
+{"en":"sponge","phonetic":"/spʌndʒ/","cn":"n. 海绵块；海绵蛋糕；v. 用海绵擦拭"},
+{"en":"deplete","phonetic":"/dɪˈpliːt/","cn":"v. 大量减少，耗尽"},
+{"en":"concurrent","phonetic":"/kənˈkʌrənt/","cn":"adj. 并存的，同时发生的；同意的，一致的"},
+{"en":"havoc","phonetic":"/ˈhævək/","cn":"n. 灾难，混乱；v. 严重破坏"},
+{"en":"armo(u)r","phonetic":"/ˈɑːmə(r)/","cn":"n. 盔甲，甲胄；装甲，防弹钢板；甲壳"},
+{"en":"flare","phonetic":"/fleə(r)/","cn":"v. 突然烧旺，闪耀；突发，加剧；突然发怒；n. 耀斑"},
+{"en":"scrap","phonetic":"/skræp/","cn":"n. 碎片，小块；丝毫；废品，废弃材料；v. 废弃"},
+{"en":"vegetation","phonetic":"/ˌvedʒəˈteɪʃn/","cn":"n. （总称）植物，植被；植物生长"},
+{"en":"menace","phonetic":"/ˈmenəs/","cn":"n. 威胁，危险的人或物；v. 威胁，恐吓"},
+{"en":"verse","phonetic":"/vɜːs/","cn":"n. 诗，韵文；诗节；（圣经）节，句"},
+{"en":"blush","phonetic":"/blʌʃ/","cn":"v. （因难堪羞愧）脸红；惭愧；n. 脸红"},
+{"en":"harass","phonetic":"/ˈhærəs/","cn":"v. 骚扰；不断攻击（敌人）"},
+{"en":"infringe","phonetic":"/ɪnˈfrɪndʒ/","cn":"v. 违反，违背（法律、规则等）；侵犯，侵害（权益）"},
+{"en":"reconcile","phonetic":"/ˈrekənsaɪl/","cn":"v. 调和，使协调一致；（使）和解；调停争吵"},
+{"en":"rein","phonetic":"/reɪn/","cn":"n. 缰绳；控制，主宰；v. 控制，管束"},
+{"en":"tribute","phonetic":"/ˈtrɪbjuːt/","cn":"n. 颂辞，礼物；体现，显示；贡物"},
+{"en":"multitude","phonetic":"/ˈmʌltɪtjuːd/","cn":"n. 众多，大量；民众，群众，大批百姓"},
+{"en":"errand","phonetic":"/ˈerənd/","cn":"n. 差事，跑腿；使命，任务"},
+{"en":"terminate","phonetic":"/ˈtɜːmɪneɪt/","cn":"v. （使）结束，（使）终止；到达终点站；终止妊娠"},
+{"en":"tow","phonetic":"/təʊ/","cn":"v. 拖，牵引（车、船等）；n. 牵引，拖"},
+{"en":"simultaneous","phonetic":"/ˌsɪmlˈteɪniəs/","cn":"adj. 同时发生的，同步的"},
+{"en":"thorn","phonetic":"/θɔːn/","cn":"n. （植物茎上的）刺；荆棘"},
+{"en":"spectator","phonetic":"/spekˈteɪtə(r)/","cn":"n. （体育比赛的）观看者，观众；旁观者"},
+{"en":"tentative","phonetic":"/ˈtentətɪv/","cn":"adj. 试探性的，暂定的；踌躇的，犹豫不定的"},
+{"en":"innumerable","phonetic":"/ɪˈnjuːmərəbl/","cn":"adj. 无数的，数不清的"},
+{"en":"herald","phonetic":"/ˈherəld/","cn":"v. 预示……的来临；宣布，宣传；热烈欢迎；n. 传令官"},
+{"en":"jolly","phonetic":"/ˈdʒɒli/","cn":"adj. 愉快的，高兴的；令人愉快的；明亮好看的"},
+{"en":"referendum","phonetic":"/ˌrefəˈrendəm/","cn":"n. 公民投票，全民公决"},
+{"en":"warranty","phonetic":"/ˈwɒrənti/","cn":"n. （商品的）保修单，保用卡；保证，担保"},
+{"en":"prop","phonetic":"/prɒp/","cn":"n. 支柱，支撑物；（戏剧电影）道具"},
+{"en":"correlate","phonetic":"/ˈkɒrəleɪt/","cn":"v. 相互关联；显示紧密联系；n. 相关的事物"},
+{"en":"regime","phonetic":"/reɪˈʒiːm/","cn":"n. （尤指独裁的）政府，政权；管理制度；养生法"},
+{"en":"intercourse","phonetic":"/ˈɪntəkɔːs/","cn":"n. 交际，沟通；性交，交媾"},
+{"en":"outrage","phonetic":"/ˈaʊtreɪdʒ/","cn":"n. 愤慨，愤怒；骇人听闻的暴行；v. 使愤怒，激怒"},
+{"en":"squad","phonetic":"/skwɒd/","cn":"n. 警察分队；运动队；（军队里的）班，组"},
+{"en":"sneak","phonetic":"/sniːk/","cn":"v. 偷偷地走，潜行；偷带，私运；n. 鬼鬼祟祟的人"},
+{"en":"plaza","phonetic":"/ˈplɑːzə/","cn":"n. 露天广场；购物中心；服务区"},
+{"en":"derail","phonetic":"/dɪˈreɪl/","cn":"v. （使）脱轨，出轨；阻挠，破坏"},
+{"en":"ardent","phonetic":"/ˈɑːdnt/","cn":"adj. 热心的，热切的；（爱情）热烈的，炽热的"},
+{"en":"imminent","phonetic":"/ˈɪmɪnənt/","cn":"adj. 即将发生的，临近的"},
+{"en":"plausible","phonetic":"/ˈplɔːzəbl/","cn":"adj. 貌似有理的；花言巧语貌似可信的"},
+{"en":"downgrade","phonetic":"/ˌdaʊnˈɡreɪd/","cn":"v. 使降级，使降职；贬低，轻视；n. 退步，下降"},
+{"en":"petition","phonetic":"/pəˈtɪʃn/","cn":"n. 请愿书；申诉书；请愿，祈求；v. 请愿"},
+{"en":"clamp","phonetic":"/klæmp/","cn":"v. （用夹具）夹紧，夹住；牢牢固定住；n. 夹具"},
+{"en":"strait","phonetic":"/streɪt/","cn":"n. 海峡；窘境，困境（straits）；adj. <古>严格的"},
+{"en":"appease","phonetic":"/əˈpiːz/","cn":"vt. 平息，安抚；缓解"},
+{"en":"glossary","phonetic":"/ˈɡlɒsəri/","cn":"n. 词汇表，术语表；专门词典"}
+];
+
+const container = document.getElementById("container");
+//语音朗读函数
+function speakWord(word){
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(word);
+    utter.lang = "en-US";
+    utter.rate = 0.95;
+    window.speechSynthesis.speak(utter);
+}
+
+//渲染全部单词
+wordList.forEach((item,idx)=>{
+    const div = document.createElement('div');
+    div.className = "word-item";
+    div.innerHTML = `
+    <span class="index-num">${idx+1}.</span>
+    <span class="en-word" data-word="${item.en}">${item.en}</span>
+    <span class="phonetic">${item.phonetic}</span>
+    <div class="meaning">${item.cn}</div>
+    `;
+    //绑定点击朗读
+    div.querySelector(".en-word").addEventListener('click',function(){
+        speakWord(this.dataset.word);
+    })
+    container.appendChild(div);
+})
+</script>
+</body>
+</html>
