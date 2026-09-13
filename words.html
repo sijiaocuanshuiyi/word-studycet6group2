@@ -32,9 +32,18 @@ h1{
     cursor:pointer;
     font-size:17px;
     user-select:none;
+    text-decoration:none;
+    -webkit-tap-highlight-color:transparent;
+    background-color:transparent;
 }
 .en-word:hover{
     text-decoration:underline;
+}
+.en-word:active,
+.en-word:focus{
+    text-decoration:none;
+    background-color:transparent;
+    outline:none;
 }
 .phonetic{
     color:#666;
