@@ -55,7 +55,6 @@ h1{
 <body>
 <h1>六级第2组｜点击蓝色单词听发音</h1>
 <div id="container"></div>
-
 <script>
 //单词数据
 const wordList = [
@@ -145,17 +144,27 @@ const wordList = [
 {"en":"appease","phonetic":"/əˈpiːz/","cn":"vt. 平息，安抚；缓解"},
 {"en":"glossary","phonetic":"/ˈɡlɒsəri/","cn":"n. 词汇表，术语表；专门词典"}
 ];
-
 const container = document.getElementById("container");
+let voiceList = [];
+
+// 等待语音加载
+function loadVoices(){
+    voiceList = window.speechSynthesis.getVoices();
+}
+window.speechSynthesis.onvoiceschanged = loadVoices;
+loadVoices();
+
 //语音朗读函数
 function speakWord(word){
     window.speechSynthesis.cancel();
     const utter = new SpeechSynthesisUtterance(word);
     utter.lang = "en-US";
     utter.rate = 0.95;
+    //优先选用英文人声
+    const enVoice = voiceList.find(v=>v.lang.startsWith('en'));
+    if(enVoice) utter.voice = enVoice;
     window.speechSynthesis.speak(utter);
 }
-
 //渲染全部单词
 wordList.forEach((item,idx)=>{
     const div = document.createElement('div');
